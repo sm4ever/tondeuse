@@ -35,16 +35,15 @@ public class Tondeuse {
 
     /**
      * traitement principale
-     * @return
-     * @throws IOException
+     * @return String resultat de la tondeuse
      */
     public String bouger()   {
         AtomicInteger i = new AtomicInteger(1);
         AtomicReference<String> result = new AtomicReference<>("");
         lignes.forEach(position -> {
             char[] steps = position.getSteps();
-            for (int j = 0; j < steps.length; j++) {
-                position = avancer(position, steps[j]);
+            for (char step : steps) {
+                avancer(position, step);
             }
             result.set(position.getX() + " " + position.getY() + " " + position.getOrentation());
             LOGGER.info("**** Tondeuse " + i + " FINAL position " + position.getX() + " " + position.getY() + " " + position.getOrentation() + " ****");
@@ -112,7 +111,7 @@ public class Tondeuse {
     /**
      * deplace la tondeuse dans la grille
      * @param position
-     * @return
+     * @return position
      */
     private Position deplacer(Position position) {
         switch (position.getOrentation()) {
@@ -141,7 +140,7 @@ public class Tondeuse {
      * Oriente la grille NEWS
      * @param mouvement
      * @param position
-     * @return
+     * @return Orentation
      */
     private Orentation orienter(Mouvement mouvement, Position position) {
         switch (mouvement) {
@@ -157,7 +156,7 @@ public class Tondeuse {
     /**
      * tourner vers la droite
       * @param position
-     * @return
+     * @return Orentation
      */
     private Orentation versDroite(Position position) {
         if (position.getOrentation() == Orentation.N)
@@ -174,7 +173,7 @@ public class Tondeuse {
     /**
      * tourner vers la gauche
      * @param position
-     * @return
+     * @return Orentation
      */
     private Orentation versGauche(Position position) {
         if (position.getOrentation() == Orentation.N)
